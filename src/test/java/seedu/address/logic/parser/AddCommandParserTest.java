@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_EVENT_ROLE_MISMATCH;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
@@ -205,6 +206,14 @@ public class AddCommandParserTest {
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_TELEGRAM_DESC
                 + ROLE_DESC_BOB + EVENT_DESC_BOB, Name.MESSAGE_CONSTRAINTS);
+
+        // event and role mismatch, extra role
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + TELEGRAM_DESC_BOB
+                + ROLE_DESC_BOB + EVENT_DESC_BOB + ROLE_DESC_AMY, MESSAGE_EVENT_ROLE_MISMATCH);
+
+        // event and role mismatch, extra event
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + TELEGRAM_DESC_BOB
+                + ROLE_DESC_BOB + EVENT_DESC_BOB + EVENT_DESC_AMY, MESSAGE_EVENT_ROLE_MISMATCH);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
